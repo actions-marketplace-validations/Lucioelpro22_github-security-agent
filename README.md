@@ -2,7 +2,7 @@
 
 Herramienta defensiva y de solo lectura para inventariar hallazgos de seguridad de GitHub y analizar archivos de repositorios localmente. No modifica repositorios, no cierra alertas, no rota secretos y no hace merge automático.
 
-Ver [instalación y uso](docs/getting-started.md), [validación en repositorios reales](docs/validation-2026-10-06.md) y [cambios de v0.3.2](CHANGELOG.md).
+Ver [instalación y uso](docs/getting-started.md), [validación en repositorios reales](docs/validation-2026-10-06.md) y [cambios de v0.3.6](CHANGELOG.md).
 
 ## Uso local
 
@@ -44,6 +44,14 @@ Sin credenciales, la integración remota usa el proveedor offline vacío. La API
 OSV permanece desactivado por defecto. Con `--query-osv`, solo se envían nombres y versiones exactas de paquetes con una fuente HTTPS única en la raíz de `rubygems.org`. Orígenes privados, múltiples o ambiguos, Git, rutas y versiones con sufijo de plataforma quedan fuera de las consultas. Un nombre puede ser privado incluso cuando el lockfile declara un registro público. No se consultan URLs ni se verifica la validez de credenciales.
 
 Las secciones no soportadas, registros inválidos y referencias faltantes dejan la cobertura incompleta y deshabilitan consultas OSV para los paquetes de ese lockfile. `CHECKSUMS` se trata como metadata; no se descargan paquetes ni se comprueba su integridad. Las variantes de plataforma se conservan sin afirmar qué variante instala cada entorno. `CONTENT ADDRESSES` y fuentes de plugins todavía no están soportadas.
+
+## Lockfiles de Dart/Flutter
+
+Inventaría `pubspec.lock` como datos, sin ejecutar Dart, Flutter ni Pub. Distingue fuentes hosted, Git, path y SDK; todas permanecen fuera de OSV. Entradas inválidas, formatos no admitidos, límites y `pubspec.yaml` sin lock compañero dejan el informe incompleto. Ver [compatibilidad y límites](docs/dart-lock.md).
+
+## Lockfiles de Swift
+
+Inventaría `Package.resolved` v2/v3 como datos, sin ejecutar Swift, SwiftPM, Xcode ni `Package.swift`. Conserva identidades y versiones de release con origen desconocido; nunca consulta OSV para Swift. Los pins solo de rama/revisión, v1, claves JSON duplicadas, entradas inválidas y límites alcanzados dejan el informe incompleto. No verifica el grafo instalado, mirrors ni hashes. Ver [compatibilidad y límites](docs/swift-resolved.md).
 
 ## Lockfiles de NuGet
 
